@@ -1,0 +1,19 @@
+name: Deploy VPS
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v1
+      - name: Initialize Terraform
+        run: terraform init
+      - name: Apply Terraform
+        run: terraform apply -auto-approve
+        env:
+          DIGITALOCEAN_TOKEN: ${{ secrets.DO_TOKEN }}
